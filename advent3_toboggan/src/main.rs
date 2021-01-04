@@ -1,9 +1,9 @@
 use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
 
-fn get_trees(terrain: &Vec<Vec<char>>, right: i32, down: i32) -> i32 {
+fn get_trees(terrain: &Vec<Vec<char>>, right: i32, down: i32) -> usize {
     let len = terrain[0].len();
-    let mut linenum = 1;
+    let mut linenum = (down as usize);
     let mut righttot = (right as usize);
     let mut out = 0;
     while linenum < terrain.len() {
@@ -15,6 +15,14 @@ fn get_trees(terrain: &Vec<Vec<char>>, right: i32, down: i32) -> i32 {
         righttot = (righttot + (right as usize)) % (len);
     }
     out
+}
+
+fn muliple_gets(t: &Vec<Vec<char>>) -> usize {
+    get_trees(t, 1, 1)
+    * get_trees(t, 3, 1)
+    * get_trees(t, 5, 1)
+    * get_trees(t, 7, 1)
+    * get_trees(t, 1, 2)
 }
 
 fn main() -> io::Result<()> {
@@ -32,5 +40,7 @@ fn main() -> io::Result<()> {
     }
     println!("-----------PART 1-----------");
     println!("Trees encountered: {}", get_trees(&v, 3, 1));
+    println!("-----------PART 2-----------");
+    println!("Mulplicative total: {}", muliple_gets(&v));
     Ok(())
 }
