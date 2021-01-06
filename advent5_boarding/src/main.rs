@@ -24,7 +24,7 @@ fn get_id(row: i32, column: i32) -> i32 {
 }
 
 fn main() -> io::Result<()> {
-    let mut v : Vec<String> = Vec::new();
+    let mut v: Vec<String> = Vec::new();
 
     let file = File::open("input.txt")?;
     let reader = BufReader::new(file);
@@ -32,6 +32,7 @@ fn main() -> io::Result<()> {
     for line in reader.lines() {
         v.push(line?);
     }
+    let mut ids: Vec<i32> = Vec::new();
     let mut max = 0;
     for entry in v {
         //let row = &entry[0..7];
@@ -40,10 +41,19 @@ fn main() -> io::Result<()> {
         let rnum = bin_string_to_int(&row, ROW_ZERO, ROW_BITS);
         let cnum = bin_string_to_int(&column, COLUMN_ZERO, COLUMN_BITS);
         let id = get_id(rnum, cnum);
+        ids.push(id);
         if id > max {
             max = id;
         }
     }
     println!("Max id: {}", max);
+    ids.sort();
+    let startid = ids[0];
+    for i in 0..(ids.len()) {
+        if ids[i] != startid + (i as i32) {
+            println!("My seat: {}", startid + (i as i32));
+            break;
+        }
+    }
     Ok(())
 }
